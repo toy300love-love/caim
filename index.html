@@ -170,7 +170,7 @@
     .tag-red { background-color: rgba(255, 82, 82, 0.2); color: var(--primary-red); }
     .tag-green { background-color: rgba(76, 175, 80, 0.2); color: var(--primary-green); }
 
-    /* 토스트 알림 (줄바꿈 반영) */
+    /* 토스트 알림 */
     .toast {
       position: fixed;
       bottom: 20px;
@@ -186,7 +186,7 @@
       pointer-events: none;
       font-size: 0.9rem;
       text-align: center;
-      white-space: pre-line; /* \n 줄바꿈 반영 */
+      white-space: pre-line;
       z-index: 1000;
     }
 
@@ -246,8 +246,8 @@
         <button class="btn btn-r2" onclick="addAnger(2)">2단계<br>(30,000원)</button>
         <button class="btn btn-r3" onclick="addAnger(3)">3단계<br>(50,000원)</button>
       </div>
-      <!-- 화풀림 버튼: 클릭 시 화 + 칭찬 모두 0으로 초기화 -->
-      <button class="btn btn-reset" onclick="resetCurrentMonth()">✨ 화풀림 (이달의 화 & 칭찬 초기화)</button>
+      <!-- 화풀림 버튼 -->
+      <button class="btn btn-reset" onclick="resetCurrentMonth()">✨ 화풀림</button>
     </div>
 
     <!-- 칭찬 기록 -->
@@ -450,23 +450,21 @@
       }
     }
 
-    // ★ 화풀림 (이달의 화 & 칭찬 리셋 함수)
+    // ★ 화풀림 버튼 클릭 시 실행되는 함수
+    // 이달의 화 포인트와 칭찬 포인트를 모두 0원으로 세팅
     function resetCurrentMonth() {
       const key = getCurrentKey();
+      const data = getMonthData(key);
       
-      if (confirm(`${currentYear}년 ${currentMonth}월의 화 및 칭찬 포인트를 모두 초기화하시겠습니까?`)) {
-        // 해당 월 데이터 완전 초기화
-        appData[key] = {
-          anger: 0,
-          praise: 0,
-          r1: 0, r2: 0, r3: 0,
-          logs: []
-        };
+      data.anger = 0;
+      data.praise = 0;
+      data.r1 = 0;
+      data.r2 = 0;
+      data.r3 = 0;
 
-        saveData();
-        updateUI();
-        showToast('✨ 이달의 화 및 칭찬 기록이 모두 초기화되었습니다.');
-      }
+      saveData();
+      updateUI();
+      showToast('✨ 이달의 화 포인트와 칭찬 포인트가 0원으로 세팅되었습니다.');
     }
 
     // UI 업데이트
